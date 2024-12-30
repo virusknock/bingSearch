@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Country Generator</title>
+</head>
+<body>
+    <h1>Random Country Generator and Search</h1>
+    <button onclick="startGenerating()">Start Generating</button>
+    <p id="word"></p>
+    <div id="searchResult" style="width: 100%; height: 600px; display: none;">
+        <iframe id="searchFrame" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+
+    <script>
+        const countries = [
+            'Acai Berries', 'Afghanistan', 'Albania', 'Albatross', 'Algeria', 'Amazon Parrot', 'Amphibians', 'Andorra', 'Angola', 'Ant', 'Antigua and Barbuda', 'Apple Pie', 'Apples', 'Apricots', 'Arachnids', 'Argentina', 'Armenia', 'Asian Fast Foods', 'Australia', 'Austria', 'Avocet', 'Azerbaijan', 'Bagels', 'Bahamas', 'Bahrain', 'Bananas', 'Bangladesh', 'Barbados', 'Barnacle', 'Bat', 'BBQ Chicken Pizza', 'Bee', 'Beetle', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Berries', 'Bhutan', 'Birds', 'Birds of Prey', 'Blackberries', 'Blackbird', 'Blueberries', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Breakfast Burrito', 'Breakfast Items', 'Brunei', 'Bulgaria', 'Burgers and Sandwiches', 'Burkina Faso', 'Burritos', 'Burundi', 'Butterfly', 'Cabo Verde', 'Cactus Pears', 'Caecilian', 'Cambodia', 'Cameroon', 'Canada', 'Canary', 'Central African Republic', 'Chad', 'Chameleon', 'Channel Tunnel (UK/France)', 'Cheeseburger', 'Cherries', 'Chichen Itza (Mexico)', 'Chicken Nuggets', 'Chicken Sandwich', 'Chile', 'China', 'Christ the Redeemer (Brazil)', 'Churros', 'Citrus Fruits', 'Clam', 'Clementines', 'Clownfish', 'Club Sandwich', 'CN Tower (Canada)', 'Cockatoo', 'Coconuts', 'Coffee', 'Colombia', 'Colossus of Rhodes (Greece)', 'Common Birds', 'Common Fruits', 'Comoros', 'Congo, Democratic Republic of the', 'Congo, Republic of the', 'Corn Dogs', 'Costa Rica', 'Crab', 'Cranberries', 'Crane', 'Croatia', 'Crocodile', 'Crow', 'Crustaceans', 'Cuba', 'Curlew', 'Cyprus', 'Czech Republic', 'Delta Works (Netherlands)', 'Denmark', 'Desserts', 'Djibouti', 'Dolphin', 'Dominica', 'Dominican Republic', 'Donuts', 'Dragonfly', 'Dragonfruit', 'Drinks', 'Duck', 'Dumplings', 'Durian', 'Eagle', 'Eclectus Parrot', 'Ecuador', 'Egg McMuffin', 'Egret', 'Egypt', 'El Salvador', 'Elderberries', 'Elephant', 'Empire State Building (USA)', 'Emu', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Exotic Birds', 'Exotic Fruits', 'Falafel Wraps', 'Falcon', 'Figs', 'Fiji', 'Finland', 'Fish', 'Flamingo', 'Flightless Birds', 'France', 'French Fries', 'Fried Chicken', 'Fried Foods', 'Frog', 'Gabon', 'Gambia', 'Gecko', 'Georgia', 'Germany', 'Ghana', 'Giraffe', 'Goji Berries', 'Golden Gate Bridge (USA)', 'Goldfish', 'Goose', 'Grand Canyon (USA)', 'Grapefruits', 'Grapes', 'Grasshopper', 'Great Barrier Reef (Australia)', 'Great Pyramid of Giza (Egypt)', 'Great Wall of China (China)', 'Greece', 'Grenada', 'Guatemala', 'Guava', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Gyros', 'Haiti', 'Hanging Gardens of Babylon (Iraq)', 'Harbor of Rio de Janeiro (Brazil)', 'Hawaiian Pizza', 'Hawk', 'Heron', 'Honduras', 'Hot Dog', 'Hummingbird', 'Hungary', 'Ibis', 'Ice Cream Sundaes', 'Iced Tea', 'Iceland', 'Iguana', 'India', 'Indonesia', 'Insects', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Itaipu Dam (Brazil/Paraguay)', 'Italy', 'Jackfruit', 'Jamaica', 'Japan', 'Jellyfish', 'Jordan', 'Kangaroo', 'Kazakhstan', 'Kenya', 'Kingfisher', 'Kiribati', 'Kiwi', 'Komodo Dragon', 'Korea, North', 'Korea, South', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Ladybug', 'Laos', 'Latvia', 'Lebanon', 'Lemons', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lighthouse of Alexandria (Egypt)', 'Limes', 'Lion', 'Lithuania', 'Lizard', 'Lobster', 'Lovebird', 'Luxembourg', 'Lychees', 'Macaw', 'Machu Picchu (Peru)', 'Mackerel', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mammals', 'Mandarins', 'Mangoes', 'Mangosteen', 'Margherita Pizza', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mausoleum at Halicarnassus (Turkey)', 'Mexico', 'Micronesia', 'Milkshakes', 'Mite', 'Mockingbird', 'Modern Wonders of the World', 'Moldova', 'Mollusks', 'Monaco', 'Mongolia', 'Monkey', 'Montenegro', 'Morocco', 'Mosquito', 'Mount Everest (Nepal/Tibet)', 'Mozambique', 'Mozzarella Sticks', 'Mulberries', 'Mussel', 'Myanmar', 'Nachos', 'Namibia', 'Natural Wonders of the World', 'Nauru', 'Nectarines', 'Nepal', 'Netherlands', 'New Seven Wonders of the World', 'New Zealand', 'Newt', 'Nicaragua', 'Niger', 'Nigeria', 'Nightingale', 'North Macedonia', 'Northern Lights (Arctic and Antarctic regions)', 'Norway', 'Octopus', 'Olives', 'Oman', 'Onion Rings', 'Oranges', 'Ostrich', 'Other Birds', 'Other Favorites', 'Other Fruits', 'Other Marine Animals', 'Owl', 'Oystercatcher', 'Pad Thai', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Panama Canal (Panama)', 'Pancakes', 'Panda', 'Papayas', 'Papua New Guinea', 'Paraguay', 'Parrot', 'Parícutin Volcano (Mexico)', 'Passionfruit', 'Peaches', 'Peacock', 'Pears', 'Pelican', 'Penguin', 'Pepperoni Pizza', 'Persimmons', 'Peru', 'Petra (Jordan)', 'Philippines', 'Pigeon', 'Pineapples', 'Piranha', 'Pita Bread with Hummus', 'Pizzas', 'Plovers', 'Plums', 'Poland', 'Pomegranates', 'Pomelos', 'Portugal', 'Pretzels', 'Qatar', 'Quesadillas', 'Quinces', 'Rambutan', 'Ramen', 'Raspberries', 'Reptiles', 'Rhea', 'Robin', 'Roman Colosseum (Italy)', 'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 'Salamander', 'Salmon', 'Samoa', 'San Marino', 'Sandpiper', 'Sao Tome and Principe', 'Saudi Arabia', 'Scorpion', 'Sea Anemone', 'Sea Urchin', 'Seagull', 'Senegal', 'Serbia', 'Seven Wonders of the Ancient World', 'Seychelles', 'Shark', 'Shorebirds', 'Shrimp', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Smoothies', 'Snail', 'Snake', 'Soda', 'Solomon Islands', 'Somalia', 'Songbirds', 'South Africa', 'South Sudan', 'Spain', 'Sparrow', 'Spider', 'Spring Rolls', 'Squid', 'Sri Lanka', 'Starfish', 'Starfruit', 'Statue of Zeus at Olympia (Greece)', 'Stone Fruits', 'Stork', 'Strawberries', 'Submarine Sandwich (Sub)', 'Sudan', 'Sun Conure', 'Suriname', 'Sushi Rolls', 'Swallow', 'Swan', 'Sweden', 'Swift', 'Switzerland', 'Swordfish', 'Syria', 'Taco Salad', 'Tacos (Soft/Hard)', 'Tacos and Burritos', 'Taiwan', 'Taj Mahal (India)', 'Tajikistan', 'Tamarind', 'Tangerines', 'Tanzania', 'Temple of Artemis at Ephesus (Turkey)', 'Thailand', 'Tick', 'Tiger', 'Timor-Leste', 'Toad', 'Togo', 'Tonga', 'Toucan', 'Trinidad and Tobago', 'Tropical Birds', 'Tropical Fruits', 'Tuna', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turtle', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Veggie Pizza', 'Venezuela', 'Victoria Falls (Zambia/Zimbabwe)', 'Vietnam', 'Vulture', 'Wading Birds', 'Waffles', 'Warbler', 'Water Birds', 'Whale', 'Woodpecker', 'Yemen', 'Zambia', 'Zimbabwe'
+        ];
+        let randomCountry = '';
+        let currentIndex = 0;
+        let interval;
+
+        function generateAndSearch() {
+            if (currentIndex < countries.length) {
+                randomCountry = countries[currentIndex];
+                document.getElementById('word').textContent = `Random Country: ${randomCountry}`;
+                document.getElementById('searchResult').style.display = 'block';
+                openSearch();
+                currentIndex++;
+            } else {
+                clearInterval(interval);
+            }
+        }
+
+        function openSearch() {
+            const searchUrl = `https://www.bing.com/search?q=${randomCountry}&form=QBLH&sp=`;
+            document.getElementById('searchFrame').src = searchUrl;
+        }
+
+        function startGenerating() {
+            currentIndex = 0;
+            interval = setInterval(generateAndSearch, 5000);
+        }
+    </script>
+</body>
+</html>
